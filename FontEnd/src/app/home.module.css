@@ -1,0 +1,54 @@
+.container{
+display: flex;
+    gap: 100px;
+}
+.textContainer {
+    display: flex;
+    flex: 1;
+    gap: 40px;
+    flex-direction: column;
+}
+.title{
+    font-size: 80px;
+    color: var(--text);
+}
+.desc{
+    font-size: 20px;
+    color: var(--text);
+}
+.buttons{
+    display: flex;
+    gap: 20px;
+}
+.button:first-child{
+    background-color: var(--btn);
+    color: var(--text);
+}
+.button{
+    padding: 20px;
+    min-width: 120px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+.brands{
+    width: 500px;
+    height: 50px;
+    position: relative;
+    filter: grayscale(1);
+}
+.imgContainer {
+    flex: 1;
+    position: relative;
+}
+.img{
+    object-fit: contain;
+}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .buttons{
+        flex-direction: column;
+    }
+}
