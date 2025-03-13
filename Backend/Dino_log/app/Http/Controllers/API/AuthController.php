@@ -37,36 +37,32 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'email'=>'required|string|email|max:255',
-                'password'=>'required|string|min:8',
-            ]
-        );
-        
-        //if the validator fails, return errer
-        if($validator->fails())
-        {
-            return response()->json(['error' => $validator->error()], 422);
+        try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|string|email|max:255',
+                'password' => 'required|string|min:8',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 422);
+            }
+
+            $users = User::where('email', $request->email)->first();
+            if (!$users) {
+                return response()->json(['message' => 'User does not exist'], 401);
+            }
+
+            if (!Hash::check($request->password, $users->password)) {
+                return response()->json(['message' => 'Incorrect password'], 401);
+            }
+
+            return response()->json([
+                'token' => $users->createToken('auth_token')->plainTextToken,
+                'message' => 'Login successful'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Internal Server Error', 'error' => $e->getMessage()], 500);
         }
-
-        //Find the user
-        $users = User::where('email', $request->email)->first();
-
-        //if user don't exits, return error
-        if(!$users)
-        {
-            return response()->json(['message'=>'user does not exits'], 401);
-        }
-
-        //If the fails password, return error
-        if(!Hash::check($request->password, $users->password))
-        {
-            return response()->json(['message' => 'Incorrec password'], 401);
-        };
-
-        return response()->json(['token'=> $users->createToken('auth_token')->plainTextToken, 'message'=>'Login successfully!'], 201);
-
     }
 
     public function logout(Request $request)
