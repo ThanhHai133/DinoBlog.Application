@@ -7,7 +7,7 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function showUser()
     {
         $users = User::all();
         return response()->json($users);  
