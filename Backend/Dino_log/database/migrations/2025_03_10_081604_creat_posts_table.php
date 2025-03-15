@@ -15,8 +15,8 @@ return new class extends Migration
         {
             $table->id();
             $table->string('title');
-            $table->string('content');
-            $table->integer('total_comment');
+            $table->text('content');
+            $table->integer('total_comment')->nullable()->default(0);
             $table->timestamps();
         });
     }

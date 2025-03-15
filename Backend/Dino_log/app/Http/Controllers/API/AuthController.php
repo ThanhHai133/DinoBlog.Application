@@ -16,7 +16,6 @@ class AuthController extends Controller
             'name'=>'required|string|max:255',
             'email'=>'required|string|email|max:255|unique:users',
             'password'=>'required|string|min:8',
-            'role_id'=>'required|int|in:1,2',
         ]);
 
         //if validator fails, return error
@@ -29,7 +28,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make( $request->password),
-            'role_id' => $request->role_id,
+            'role_id' => 2,
         ]);
         return response()->json(['token' => $users->createToken('auth_token')->plainTextToken, 'message' => 'register successfully!'], 201);
         
@@ -58,6 +57,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'token' => $users->createToken('auth_token')->plainTextToken,
+                'role_id' => $users->role_id,
                 'message' => 'Login successful'
             ], 200);
         } catch (\Exception $e) {

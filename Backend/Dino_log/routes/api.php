@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\Post\PostController;
 use Illuminate\Auth\Events\Registered;
 
 // Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -27,5 +28,6 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class])->grou
 //Route for admin and user
 Route::middleware('auth:sanctum')->group(function()
 {
-    Route::get('/post', );
+    Route::get('/post',[PostController::class ,'index']);
+    Route::post('/post', [PostController::class, 'store']);
 });
